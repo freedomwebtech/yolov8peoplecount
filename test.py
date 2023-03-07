@@ -26,11 +26,6 @@ class_list = data.split("\n")
 #print(class_list)
 count=0
 tracker=Tracker()   
-area1=[(214,320),(239,374),(340,343),(309,293)]
-area2=[(382,272),(401,327),(526,274),(502,242)]
-area1_c=set()
-area2_c=set()
-
 
 
 
@@ -62,7 +57,6 @@ while True:
         y2=int(row[3])
         d=int(row[5])
         c=class_list[d]
-#        if 'person' in c:
         list.append([x1,y1,x2,y2])
             
     bbox_idx=tracker.update(list)
@@ -70,23 +64,9 @@ while True:
         x3,y3,x4,y4,id=bbox
         cx=int(x3+x4)//2
         cy=int(y3+y4)//2
-        
-        results=cv2.pointPolygonTest(np.array(area1,np.int32),((x4,y4)),False)
-        if results>=0:
-           cv2.rectangle(frame,(x3,y3),(x4,y4),(0,255,0),2)
-           cv2.putText(frame,str(int(id)),(x3,y3),cv2.FONT_HERSHEY_COMPLEX,0.5,(255,0,0),1)
-           area1_c.add(id)
-          
-        results=cv2.pointPolygonTest(np.array(area2,np.int32),((x4,y4)),False)
-        if results>=0:
-           cv2.rectangle(frame,(x3,y3),(x4,y4),(0,255,0),2)
-           cv2.putText(frame,str(int(id)),(x3,y3),cv2.FONT_HERSHEY_COMPLEX,0.5,(255,0,0),1)
-           area2_c.add(id)
-    print(area1_c)
-    print(area2_c)
-    
-    cv2.polylines(frame,[np.array(area1,np.int32)],True,(255,0,0),2)
-    cv2.polylines(frame,[np.array(area2,np.int32)],True,(255,0,0),2)
+        cv2.rectangle(frame,(x3,y3),(x4,y4),(0,255,0),2)
+        cv2.putText(frame,str(int(id)),(x3,y3),cv2.FONT_HERSHEY_COMPLEX,0.5,(255,0,0),1)
+           
     cv2.imshow("RGB", frame)
     if cv2.waitKey(1)&0xFF==27:
         break
